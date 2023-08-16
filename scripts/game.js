@@ -31,16 +31,23 @@ function getToken(stringRepresentation) {
     }
 }
 
-console.log(getToken("ROCK"));
-console.log(getToken("Rock"));
-console.log(getToken("rock"));
-console.log(getToken("paper"));
-console.log(getToken("scissors"));
-getToken("wrongToken");
-
 function beats(token) {
-    switch (token) {}
+    switch (token) {
+        case GameToken.Rock:
+            return GameToken.Scissors;
+        case GameToken.Paper:
+            return GameToken.Rock;
+        case GameToken.Scissors:
+            return GameToken.Paper;
+        default:
+            console.log("Wrong game token!");
+    }
 }
+
+console.log(beats(GameToken.Rock));
+console.log(beats(GameToken.Paper));
+console.log(beats(GameToken.Scissors));
+beats("Wrong");
 
 function playRound(playerSelection, computerSelection) {
     // your code here!
