@@ -55,9 +55,15 @@ function playRound(playerSelection, computerSelection) {
     } else {
         return "You Lose! " + computerToken.name + " beats " + playerToken.name + ".";
     }
-  }
-   
-  const playerSelection = "rock";
-  const computerSelection = getComputerChoice();
-  console.log(computerSelection);
-  console.log(playRound(playerSelection, computerSelection));
+}
+
+
+function game(rounds) {
+    for (let round = 0; round < rounds; round++) {
+        const playerSelection = prompt("Your choice:");
+        const computerSelection = getComputerChoice();
+        console.log(playRound(playerSelection, computerSelection));
+    }
+}
+
+game(5);
