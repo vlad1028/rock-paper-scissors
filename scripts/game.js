@@ -1,7 +1,7 @@
 class GameToken {
-    static Rock = new GameToken("rock");
-    static Paper = new GameToken("paper");
-    static Scissors = new GameToken("scissors");
+    static Rock = new GameToken("Rock");
+    static Paper = new GameToken("Paper");
+    static Scissors = new GameToken("Scissors");
 
     constructor(name) {
         this.name = name;
@@ -44,15 +44,20 @@ function beats(token) {
     }
 }
 
-console.log(beats(GameToken.Rock));
-console.log(beats(GameToken.Paper));
-console.log(beats(GameToken.Scissors));
-beats("Wrong");
-
 function playRound(playerSelection, computerSelection) {
-    // your code here!
+    const playerToken = getToken(playerSelection);
+    const computerToken = getToken(computerSelection);
+
+    if (playerToken === computerToken) {
+        return "Draw! You both chose " + playerToken.name + ".";
+    } else if (beats(playerToken) === computerToken) {
+        return "You Won! " + playerToken.name + " beats " + computerToken.name + ".";
+    } else {
+        return "You Lose! " + computerToken.name + " beats " + playerToken.name + ".";
+    }
   }
    
   const playerSelection = "rock";
   const computerSelection = getComputerChoice();
+  console.log(computerSelection);
   console.log(playRound(playerSelection, computerSelection));
