@@ -8,6 +8,16 @@ class GameToken {
     }
 }
 
+class GameResult {
+    static Win = new GameResult("Win");
+    static Loose = new GameResult("Loose");
+    static Draw = new GameResult("Draw");
+
+    constructor(result) {
+        this.result = result;
+    }
+}
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
@@ -44,26 +54,61 @@ function beats(token) {
     }
 }
 
-function playRound(playerSelection, computerSelection) {
+function getRoundResult(playerSelection, computerSelection) {
     const playerToken = getToken(playerSelection);
     const computerToken = getToken(computerSelection);
 
     if (playerToken === computerToken) {
-        return "Draw! You both chose " + playerToken.name + ".";
+        return GameResult.Draw;
     } else if (beats(playerToken) === computerToken) {
-        return "You Won! " + playerToken.name + " beats " + computerToken.name + ".";
+        return GameResult.Win;
     } else {
-        return "You Lose! " + computerToken.name + " beats " + playerToken.name + ".";
+        return GameResult.Loose;
     }
 }
 
-
-function game(rounds) {
-    for (let round = 0; round < rounds; round++) {
-        const playerSelection = prompt("Your choice:");
-        const computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection));
+function getResultString(result, playerSelection, computerSelection) {
+    switch (result) {
+        case GameResult.Win:
+            return "You Won! " + playerSelection + " beats " + computerSelection + ".";
+        case GameResult.Loose:
+            return "You Lose! " + computerSelection + " beats " + playerSelection + ".";
+        case GameResult.Draw:
+            return "Draw! You both chose " + playerSelection + ".";
     }
 }
 
-game(5);
+const roundsList = document.querySelector('#roundsList');
+const playerPoints = document.querySelector('#playerPoints');
+const computerPoints = document.querySelector('#computerPoints');
+const drawPoints = document.querySelector('#drawPoints');
+const buttons = Array.from(document.querySelectorAll('button.selection'));
+
+function printRoundResult(resultString) {
+    const li = document.createElement('li');
+    li.textContent = resultString;
+    roundsList.appendChild(li);
+}
+
+function updatePoints(roundResult) {
+    switch (roundResult) {
+        case GameResult.Draw:
+            drawPoints.textContent++;
+            break;
+        case GameResult.Win:
+            playerPoints.textContent++;
+            break;
+        case GameResult.Loose:
+            computerPoints.textContent++;
+            break;
+    }
+}
+
+function playRound(playerSelection) {
+    const computerSelection = getComputerChoice();
+    const result = getRoundResult(playerSelection, getComputerChoice());
+    updatePoints(result);
+    printRoundResult(getResultString(result, playerSelection, computerSelection));
+}
+
+buttons.forEach(button => button.addEventListener('click', (e) => playRound(button.textContent)));
