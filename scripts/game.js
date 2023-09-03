@@ -112,11 +112,14 @@ function playRound(playerSelection) {
     printRoundResult(getResultString(result, playerSelection, computerSelection));
 }
 
-function resetGame() {
+function resetScore() {
     playerPoints.textContent = 0;
     drawPoints.textContent = 0;
     computerPoints.textContent = 0;
+}
 
+function resetGame() {
+    resetScore();
     roundsList.replaceChildren();
 }
 
