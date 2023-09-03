@@ -82,7 +82,8 @@ const roundsList = document.querySelector('#roundsList');
 const playerPoints = document.querySelector('#playerPoints');
 const computerPoints = document.querySelector('#computerPoints');
 const drawPoints = document.querySelector('#drawPoints');
-const buttons = Array.from(document.querySelectorAll('button.selection'));
+const selectionButtons = Array.from(document.querySelectorAll('button.selection'));
+const resetButton = document.querySelector('button#reset');
 
 function printRoundResult(resultString) {
     const li = document.createElement('li');
@@ -111,4 +112,13 @@ function playRound(playerSelection) {
     printRoundResult(getResultString(result, playerSelection, computerSelection));
 }
 
-buttons.forEach(button => button.addEventListener('click', (e) => playRound(button.textContent)));
+function resetGame() {
+    playerPoints.textContent = 0;
+    drawPoints.textContent = 0;
+    computerPoints.textContent = 0;
+
+    roundsList.replaceChildren();
+}
+
+selectionButtons.forEach(button => button.addEventListener('click', (e) => playRound(button.textContent)));
+resetButton.addEventListener('click', (e) => resetGame());
